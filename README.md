@@ -12,6 +12,7 @@ A library for supporting Railway-Oriented Programming in Python.
 
 Install the package `python_on_rails` version `1.0+` from PyPi.
 The recommended `requirements.txt` line is `python_on_rails~=1.0`.
+This package uses [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
 ## `railway` module
 
