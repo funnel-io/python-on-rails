@@ -13,25 +13,26 @@ A library for supporting Railway-Oriented Programming in Python.
 Install the package `python_on_rails` version `1.0+` from PyPi.
 The recommended `requirements.txt` line is `python_on_rails~=1.0`.
 
-## Current Functionality
+## `railway` module
 
-### `Railway`
+### `Railway` (class)
 
 Combined with `Result` objects, a means of Railway-Oriented Programming.
 A `Railway` object represents a process comprising of a number of steps. It accepts a number of steps, each of which should be a function that accepts and returns a `Result` object.
 
-#### `run`
+#### `run` (instance method)
 
 Triggers the process. If an `initial` value is not supplied, the first step will be called with a `Result.success(None)`.
 
 By default, if the process completes successfully, the final result will be unwrapped. If it fails however, a `Result` object with its error set will be returned. This behaviour can be configured by passing the optional `success_handler` and `failure_handler`. Those handlers are both functions that accept a single argument - a `Result` object.
 
+## `result` module
 
-### `Result`
+### `Result` (class)
 
 An object encapsulating a `value` or an `error`.
 
-#### `is_failure` and `is_success` (instante methods)
+#### `is_failure` and `is_success` (instance methods)
 
 Predicate methods denoting whether the result object has its error or value set.
 
@@ -39,9 +40,9 @@ Predicate methods denoting whether the result object has its error or value set.
 
 Constructors that creates a `Result` object with either its error or value set.
 
-#### `as_result` (decorator function)
+#### `as_result` (function)
 
-Convenience decorator function applying the `Result` object to the generic `catch` decorator. Accepts any number of exceptions to catch and turn into `Result` objects.
+Convenience decorator builder applying the `Result` object to the generic `catch` decorator. Accepts any number of exceptions to catch and turn into `Result` objects.
 
 
 #### `failure` (function)
@@ -58,10 +59,11 @@ Has the same effect as calling the `Result.success` constructor.
 
 Convenience function for extracting the value from a Result object.
 
+## `either` module
 
-### `Either`
+### `Either`, `Failure`, and `Success` (classes)
 
-An implementation of the [either monad](). The abstract `Either` base class encapsulates a value and is implemented as the `Success` and `Failure` classes.
+An implementation of the [either](https://wiki.haskell.org/Typeclassopedia#Instances) [monad](https://en.wikipedia.org/wiki/Monad_(functional_programming)). The abstract `Either` base class encapsulates a value and is implemented as the `Success` and `Failure` classes.
 
 #### `bind` (instance method)
 
@@ -70,13 +72,18 @@ Accepts a monadic function that takes a single argument and returns either a `Su
 For a `Success`, calls the supplied function with the unwrapped argument, returning its result.
 For a `Failure`, ignores the supplied function and returns the existing failure.
 
-#### `as_either` (decorator function)
+#### `as_either` (function)
 
-Convenience decorator function applying the `Either` monad to the generic `catch` decorator. Accepts any number of exceptions to catch and turn into `Failure` objects.
+Convenience decorator builder applying the `Either` monad to the generic `catch` decorator. Accepts any number of exceptions to catch and turn into `Failure` objects.
 
+## `common` module
 
-### `catch`
+### `catch` (function)
 
 A decorator builder that ensures that the result of calling a function is returned as a `Result` object. Given a list of exceptions, catches those and wraps them into a `Result` object with its error set.
 
 Can optionally be configured to handle and use the `Either` monad instead by passing the `result_class`, `failure`, and `success` arguments.
+
+### `identity` (function)
+
+The [identity function](https://en.wikipedia.org/wiki/Identity_function).
