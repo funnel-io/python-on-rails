@@ -27,7 +27,7 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Topic :: Software Development :: Libraries",
     ],
-    keywords="rules engine",
+    keywords="Railway-Oriented Programming",
     long_description=readme,
     long_description_content_type="text/markdown",
     package_dir={"": "src"},
