@@ -1,3 +1,7 @@
+from functools import partial
+from .common import catch
+
+
 class Either:
     def __init__(self, value):
         self.value = value
@@ -39,3 +43,6 @@ class Failure(Either):
         1.23
         """
         return self
+
+
+as_either = partial(catch, result_class=Either, failure=Failure, success=Success)

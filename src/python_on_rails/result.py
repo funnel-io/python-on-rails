@@ -1,3 +1,7 @@
+from functools import partial
+from .common import catch
+
+
 class Result:
     def __init__(self, error=None, value=None):
         self.error = error
@@ -19,6 +23,9 @@ class Result:
 
     def __repr__(self):
         return f"<{self.__class__.__name__} error={repr(self.error)} value={repr(self.value)}>"
+
+
+as_result = partial(catch, result_class=Result, failure=Result.failure, success=Result.success)
 
 
 def failure(error):

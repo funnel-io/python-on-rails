@@ -39,6 +39,11 @@ Predicate methods denoting whether the result object has its error or value set.
 
 Constructors that creates a `Result` object with either its error or value set.
 
+#### `as_result` (decorator function)
+
+Convenience decorator function applying the `Result` object to the generic `catch` decorator. Accepts any number of exceptions to catch and turn into `Result` objects.
+
+
 #### `failure` (function)
 
 Convenience function for creating a Result object with its error set.
@@ -58,12 +63,16 @@ Convenience function for extracting the value from a Result object.
 
 An implementation of the [either monad](). The abstract `Either` base class encapsulates a value and is implemented as the `Success` and `Failure` classes.
 
-#### `bind`
+#### `bind` (instance method)
 
 Accepts a monadic function that takes a single argument and returns either a `Success` or a `Failure`.
 
 For a `Success`, calls the supplied function with the unwrapped argument, returning its result.
 For a `Failure`, ignores the supplied function and returns the existing failure.
+
+#### `as_either` (decorator function)
+
+Convenience decorator function applying the `Either` monad to the generic `catch` decorator. Accepts any number of exceptions to catch and turn into `Failure` objects.
 
 
 ### `catch`
@@ -71,4 +80,3 @@ For a `Failure`, ignores the supplied function and returns the existing failure.
 A decorator builder that ensures that the result of calling a function is returned as a `Result` object. Given a list of exceptions, catches those and wraps them into a `Result` object with its error set.
 
 Can optionally be configured to handle and use the `Either` monad instead by passing the `result_class`, `failure`, and `success` arguments.
-

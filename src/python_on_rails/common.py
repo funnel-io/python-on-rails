@@ -1,8 +1,11 @@
 from functools import wraps
-from .result import Result
 
 
-def catch(*exceptions, result_class=Result, failure=Result.failure, success=Result.success):
+def identity(result):
+    return result
+
+
+def catch(*exceptions, result_class=object, failure=identity, success=identity):
     """
     Returns a decorator that handles the specified types of exceptions.
     If no exceptions are given, defaults to Exception.

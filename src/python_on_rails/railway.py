@@ -1,9 +1,6 @@
 from functools import reduce
+from .common import identity
 from .result import Result, unwrap
-
-
-def identity(result):
-    return result
 
 
 class Railway:

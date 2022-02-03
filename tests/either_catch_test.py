@@ -1,15 +1,12 @@
-from python_on_rails.catch import catch
-from python_on_rails.either import Either, Failure, Success
-
-either = catch(result_class=Either, success=Success, failure=Failure)
+from python_on_rails.either import as_either, Failure, Success
 
 
-@either
+@as_either()
 def add_one(x):
     return x + 1
 
 
-@either
+@as_either()
 def times_five(x):
     return x * 5
 
