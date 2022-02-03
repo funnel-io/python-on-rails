@@ -14,6 +14,35 @@ Install the package `python_on_rails` version `1.0+` from PyPi.
 The recommended `requirements.txt` line is `python_on_rails~=1.0`.
 This package uses [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
+## Code example
+Below is an example to get started. Define functions ("railway stops") and wrap the return object into a `Result.success` (or `Result.failure`) object.
+Create a `Railway` object and add your stops to it, finally call `run()`.
+
+```python
+from python_on_rails.railway import Railway
+from python_on_rails.result import Result
+
+def download(url):
+    # fetch data from url...
+    return Result.success(
+        [
+            {"date": "2022-01-19", "clicks": 13},
+            {"date": "2022-01-20", "clicks": 37},
+        ]
+    )
+
+def parse(downloaded_data):
+    return Result.success([[entity["date"], entity["clicks"]] for entity in downloaded_data])
+
+def output(parsed_data):
+    return Result.success({"data": {"rows": parsed_data}})
+
+result = Railway(download, parse, output).run()
+print(f"{result=}")
+```
+
+Wrapping the return object can be omitted if you use `as_result` decorator from `result` module. Please see [railway_catch_test.py](tests/railway_catch_test.py) for example. 
+
 ## `railway` module
 
 ### `Railway` (class)
