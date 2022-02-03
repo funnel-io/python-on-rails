@@ -1,4 +1,3 @@
-from functools import partial
 from .common import catch
 
 
@@ -22,6 +21,17 @@ class Either:
         return f"<{self.__class__.__name__} value={repr(self.value)}>"
 
 
+class Failure(Either):
+    def bind(self, func):
+        """
+        Ignores the supplied function and returns itself.
+
+        >>> Failure(1.23).bind(int).value
+        1.23
+        """
+        return self
+
+
 class Success(Either):
     def bind(self, func):
         """
@@ -34,15 +44,14 @@ class Success(Either):
         return func(self.value)
 
 
-class Failure(Either):
-    def bind(self, func):
-        """
-        Ignores the supplied function and returns itself.
+def as_either(*exceptions):
+    """
+    Returns a decorator that handles the specified types of exceptions, if any are given.
 
-        >>> Failure(1.23).bind(int).value
-        1.23
-        """
-        return self
+    If the decorated function raises a handled exception, it will be caught
+    and a Failure will be returned.
 
-
-as_either = partial(catch, result_class=Either, failure=Failure, success=Success)
+    If the decorated function does not raise an error and does not return an
+    Either (Success or Failure), a Success will be returned.
+    """
+    return catch(*exceptions, result_class=Either, failure=Failure, success=Success)

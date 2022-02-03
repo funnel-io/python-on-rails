@@ -1,4 +1,3 @@
-from functools import partial
 from .common import catch
 
 
@@ -25,7 +24,17 @@ class Result:
         return f"<{self.__class__.__name__} error={repr(self.error)} value={repr(self.value)}>"
 
 
-as_result = partial(catch, result_class=Result, failure=Result.failure, success=Result.success)
+def as_result(*exceptions):
+    """
+    Returns a decorator that handles the specified types of exceptions, if any are given.
+
+    If the decorated function raises a handled exception, it will be caught
+    and a Result object with its error property set will be returned.
+
+    If the decorated function does not raise an error and does not return a
+    Result object, a Result object with its value property set will be returned.
+    """
+    return catch(*exceptions, result_class=Result, failure=Result.failure, success=Result.success)
 
 
 def failure(error):

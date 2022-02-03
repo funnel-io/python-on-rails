@@ -1,7 +1,7 @@
 from python_on_rails.either import as_either, Failure, Success
 
 
-@as_either()
+@as_either(TypeError)
 def add_one(x):
     return x + 1
 

@@ -43,6 +43,6 @@ def failed_download(result):
     raise RuntimeError("Failed to download")
 
 
-@as_result()
+@as_result(RuntimeError)
 def failed_parse(result):
     raise RuntimeError("Failed to parse")
