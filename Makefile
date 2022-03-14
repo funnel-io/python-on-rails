@@ -7,8 +7,9 @@ setup: venv
 
 venv: dev-packages.txt
 	virtualenv venv --python=${PYTHON_VERSION}
-	. venv/bin/activate; pip3 install \
-	-r dev-packages.txt
+	. venv/bin/activate && \
+	pip3 install --upgrade pip && \
+	pip3 install -r dev-packages.txt
 
 .PHONY: test
 test: venv
