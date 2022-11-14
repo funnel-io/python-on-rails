@@ -38,10 +38,18 @@ def as_result(*exceptions):
 
 
 def failure(error):
+    """
+    >>> failure("some error")
+    <Result error='some error' value=None>
+    """
     return Result.failure(error)
 
 
 def success(value):
+    """
+    >>> success("great success")
+    <Result error=None value='great success'>
+    """
     return Result.success(value)
 
 
