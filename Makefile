@@ -14,7 +14,7 @@ venv: dev-packages.txt
 
 .PHONY: test
 test: venv
-	@ . venv/bin/activate && PYTHONPATH=src/ pytest -rsx tests/ src/ --cov ./src/python_on_rails/ --no-cov-on-fail --cov-report term-missing --doctest-modules --doctest-continue-on-failure
+	@ . venv/bin/activate && PYTHONPATH=src/ pytest -vv -rsx tests/ src/ --cov ./src/python_on_rails/ --no-cov-on-fail --cov-report term-missing --doctest-modules --doctest-continue-on-failure
 	@ . venv/bin/activate && flake8  src --exclude '#*,~*,.#*'
 
 .PHONY: clean
