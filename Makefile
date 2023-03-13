@@ -1,7 +1,7 @@
 PYTHON_VERSION ?= 3.8
 
 dist: clean-dist
-	pip install --upgrade pip build
+	pip install --upgrade pip build twine
 	python3 -m build .
 
 setup: venv
