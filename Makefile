@@ -1,23 +1,26 @@
-PYTHON_VERSION ?= 3.8
+PYTHON_VERSION ?= 3.9
 
-dist: clean-dist venv
-	. venv/bin/activate && \
-	pip3 install --upgrade pip build twine && \
-	python3 -m build .
+dist: clean-dist setup
+	. venv/bin/activate && python3 -m build .
 
-setup: venv
+.PHONY: setup
+setup: venv/setup.txt
 
-venv: dev-requirements.txt
+venv:
 	virtualenv venv --python=${PYTHON_VERSION}
+
+venv/setup.txt: venv dev-requirements.txt
 	. venv/bin/activate && \
 	pip3 install --upgrade pip && \
 	pip3 install --requirement dev-requirements.txt
+	touch venv/setup.txt
 
 .PHONY: test
-test: venv
+test: setup
 	@ . venv/bin/activate && PYTHONPATH=src/ pytest -vv -rsx tests/ src/ --cov ./src/python_on_rails/ --no-cov-on-fail --cov-report term-missing --doctest-modules --doctest-continue-on-failure
-	@ . venv/bin/activate && flake8  src --exclude '#*,~*,.#*'
+	@ . venv/bin/activate && flake8 src --exclude '#*,~*,.#*'
 	@ . venv/bin/activate && black --check src tests
+	@ . venv/bin/activate && mypy src
 
 .PHONY: clean
 clean: clean-dist
